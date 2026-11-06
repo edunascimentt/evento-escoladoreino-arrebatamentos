@@ -8,3 +8,5 @@
   PARTICIPAR" plaque button, blackletter display font (Pirata One). Theme lives in style.css under `.theme-arreb`.
 - AULA_SLUG aula-todos-arrebatamentos. WHATSAPP_GROUP_URL still empty (needs the new group link).
 - Topic cards copy (Enoque, Elias, Filipe, Paulo, Igreja, duas testemunhas) is a draft by Claude; confirm with the team.
+- 2026-11-06: Repo github.com/edunascimentt/evento-escoladoreino-arrebatamentos (public). Workers Builds connected
+  (branch main, `npx wrangler deploy`). ADMIN_PASSWORD secret = same as the previous class. META_CAPI_TOKEN pending.
