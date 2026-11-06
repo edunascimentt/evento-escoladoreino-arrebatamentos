@@ -607,6 +607,20 @@ p { overflow-wrap: break-word; }
 .theme-arreb .mini-cd b { font: 400 1.9rem/1 var(--display); }
 .theme-arreb .foot { background: #080c0d; }
 
+/* desktop/tablet: art keeps its proportion at the screen height (source is 1080px wide, so it is
+   never stretched to full width); sides filled with a blurred copy; title inside the first screen */
+@media (min-width: 761px) {
+  .theme-arreb .hero.poster { --art-h: clamp(520px, min(100vh, 90vw), 1000px); --art-h: clamp(520px, min(100svh, 90vw), 1000px); }
+  .art { height: var(--art-h); }
+  .art::before { content: ""; position: absolute; inset: -60px; background: url("/assets/img/arte-larga.webp") 50% 30% / cover no-repeat; filter: blur(34px) brightness(.45) saturate(.9); }
+  .art picture { position: absolute; top: 0; left: 50%; width: auto; height: 100%; aspect-ratio: 1080 / 640; translate: -50% 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+  .art img { object-position: 50% 50%; }
+  .art::after { z-index: 1; }
+  .art .beam { z-index: 1; }
+  .poster-in { padding-top: calc(var(--art-h) * .5); }
+  .theme-arreb .hero h1.display { font-size: clamp(2.9rem, min(8.6vw, 10.5vh), 6.6rem); font-size: clamp(2.9rem, min(8.6vw, 10.5svh), 6.6rem); }
+}
 @media (max-width: 760px) {
   .art { height: 122vw; }
   .poster-in { padding-top: calc(122vw - 150px); padding-bottom: 48px; }
