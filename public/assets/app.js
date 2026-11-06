@@ -181,7 +181,7 @@
     var units = {};
     $$('[data-u]', cd).forEach(function (el) { units[el.getAttribute('data-u')] = el; });
     var pad = function (n) { return n < 10 ? '0' + n : String(n); };
-    var set = function (k, v) { var el = units[k]; if (el && el.textContent !== v) { el.textContent = v; if (!reduce) { el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip'); } } };
+    var set = function (k, v) { var el = units[k]; if (el && el.textContent !== v) { el.textContent = v; if (!reduce) { el.classList.remove('flip'); el.parentNode.classList.remove('tick'); void el.offsetWidth; el.classList.add('flip'); el.parentNode.classList.add('tick'); } } };
     (function tick() {
       var left = Math.max(0, target - Date.now());
       if (left === 0) {
@@ -394,4 +394,30 @@
         showError(typeof code === 'string' ? code : 'net');
       });
   });
+
+  // ───────── Micro-interactions: click ripple on buttons, magnetic pull on the main CTAs ─────────
+  if (!reduce) {
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('.btn, .top-cta, .back, .sticky em');
+      if (!b) return;
+      var r = b.getBoundingClientRect(), d = Math.max(r.width, r.height) * 2.2;
+      var s = document.createElement('span');
+      s.className = 'ripple';
+      s.setAttribute('aria-hidden', 'true');
+      s.style.cssText = 'width:' + d + 'px;height:' + d + 'px;left:' + (e.clientX - r.left) + 'px;top:' + (e.clientY - r.top) + 'px';
+      b.appendChild(s);
+      setTimeout(function () { s.remove(); }, 750);
+    }, { passive: true });
+  }
+  if (fine && !reduce) {
+    $$('.top-cta, .plaque').forEach(function (el) {
+      el.classList.add('magnetic');
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty('--tx', ((e.clientX - r.left - r.width / 2) * .16).toFixed(1) + 'px');
+        el.style.setProperty('--ty', ((e.clientY - r.top - r.height / 2) * .22).toFixed(1) + 'px');
+      });
+      el.addEventListener('pointerleave', function () { el.style.setProperty('--tx', '0px'); el.style.setProperty('--ty', '0px'); });
+    });
+  }
 })();

@@ -655,3 +655,105 @@ p { overflow-wrap: break-word; }
 .theme-arreb .btn.btn-cal-alt { background: rgba(255, 255, 255, .04); border: 1px solid rgba(237, 227, 211, .35); color: var(--cream, #EDE3D3); font-size: .85rem; padding: 14px 20px; box-shadow: none; } .btn.btn-cal-alt::before { display: none; }
 .theme-arreb .btn.btn-cal-alt:hover { border-color: var(--tawny-soft); }
 @media (prefers-reduced-motion: reduce) { .btn-cal { animation: none; } }
+
+/* ───────── Motion polish + micro-interactions ─────────
+   Everything here is animation/transition only, so the global reduced-motion rule above turns it off;
+   the block at the end also clears the reveal blur. Without JS nothing here hides content. */
+
+/* reveals: blur-to-sharp, a bit slower and softer */
+.js .reveal { filter: blur(8px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease), filter 1.1s var(--ease), translate .45s var(--spring), border-color .3s, box-shadow .4s; transition-delay: var(--d, 0s), var(--d, 0s), var(--d, 0s), 0s, 0s, 0s; }
+.js .reveal.in { filter: none; }
+.js .tcard.reveal { transition: opacity 1.1s var(--ease), transform .5s var(--ease), filter 1.1s var(--ease), box-shadow .5s var(--ease), border-color .4s; transition-delay: var(--d, 0s), 0s, var(--d, 0s), 0s, 0s; }
+
+/* hero title: words rise out of a blur, then the key word breathes a warm glow */
+.js .split .w > span { filter: blur(6px); transition: transform 1.1s var(--ease), filter 1.1s var(--ease); transition-delay: calc(.2s + var(--i) * .07s); }
+.js.ready .split .w > span { filter: none; }
+.theme-arreb .hero h1.display em { animation: title-glow 5.5s 2.6s ease-in-out infinite; }
+@keyframes title-glow { 50% { text-shadow: 0 4px 30px rgba(0, 0, 0, .7), 0 0 46px rgba(240, 122, 42, .42), 0 0 2px rgba(255, 236, 210, .5); } }
+.theme-arreb .byline { transition: letter-spacing 1.4s var(--ease) 1s; }
+.js:not(.ready) .theme-arreb .byline, .js:not(.ready) .byline { letter-spacing: .2em; }
+
+/* art: slow "breathing" zoom after the entrance */
+.art picture { transform-origin: 50% 35%; }
+.js .art picture { animation: art-breathe 26s 2.4s ease-in-out infinite alternate; }
+@keyframes art-breathe { to { transform: scale(1.06); } }
+
+/* eyebrow dashes draw in from the text */
+.js .eyebrow.reveal::before, .js .eyebrow.reveal::after { transform: scaleX(0); transition: transform .9s var(--ease) calc(var(--d, 0s) + .35s); }
+.js .eyebrow.reveal::before { transform-origin: right; }
+.js .eyebrow.reveal::after { transform-origin: left; }
+.js .eyebrow.reveal.in::before, .js .eyebrow.reveal.in::after { transform: none; }
+
+/* top CTA: periodic shine + magnetic hover */
+.top-cta { position: relative; overflow: hidden; isolation: isolate; transition: background .3s, transform .3s var(--ease), translate .4s var(--spring), box-shadow .3s; }
+.top-cta::after { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, .45) 50%, transparent 70%); transform: translateX(-120%); animation: shine 5s 3s var(--ease) infinite; }
+.top-cta:hover { box-shadow: 0 10px 24px -10px rgba(219, 85, 0, .9); }
+.magnetic { translate: var(--tx, 0px) var(--ty, 0px); }
+.plaque { transition: transform .4s var(--spring), filter .3s, translate .45s var(--spring); }
+.theme-arreb .btn.btn-cal { transition: transform .3s var(--ease), translate .45s var(--spring), box-shadow .3s; }
+
+/* click ripple (added by JS) */
+.btn, .top-cta, .back, .sticky em { position: relative; overflow: hidden; }
+.ripple { position: absolute; z-index: 0; border-radius: 50%; translate: -50% -50%; background: radial-gradient(circle, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 70%); pointer-events: none; animation: ripple-out .7s var(--ease) forwards; }
+.back .ripple { background: radial-gradient(circle, rgba(219, 85, 0, .25), rgba(219, 85, 0, 0) 70%); }
+@keyframes ripple-out { from { transform: scale(0); opacity: 1; } to { transform: scale(1); opacity: 0; } }
+.btn:active, .top-cta:active, .sticky:active em { transform: scale(.97); }
+.back svg { transition: transform .3s var(--spring); }
+.back:hover svg { transform: translateX(-3px); }
+
+/* form fields: glowing focus line, check mark pops when valid */
+.field::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 0; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--tawny), var(--gold), var(--tawny)); transform: scaleX(0); transition: transform .5s var(--ease); pointer-events: none; }
+.field:focus-within::after { transform: scaleX(1); }
+.field.valid .ok { animation: ok-pop .5s var(--spring); }
+@keyframes ok-pop { 0% { scale: .4; } 60% { scale: 1.25; } 100% { scale: 1; } }
+.stepped .step.active .q { animation: q-in .7s var(--ease) both; }
+@keyframes q-in { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } }
+
+/* countdown: each unit glows when its number changes */
+.cd-units span, .mini-cd span { transition: translate .4s var(--spring), border-color .4s; }
+.cd-units span.tick, .mini-cd span.tick { animation: tick-glow .9s var(--ease); }
+@keyframes tick-glow { from { box-shadow: 0 0 26px -4px rgba(240, 122, 42, .7); border-color: rgba(240, 122, 42, .6); } }
+.cd-units span:hover, .mini-cd span:hover { translate: 0 -3px; }
+
+/* topic cards: number lifts, icon wiggles */
+.tcard .num { display: inline-block; transition: translate .45s var(--spring), filter .4s; }
+.tcard:hover .num { translate: 0 -4px; filter: drop-shadow(0 6px 14px rgba(219, 85, 0, .5)); }
+.tcard:hover .t-ic svg { animation: ic-wiggle .6s var(--spring); }
+@keyframes ic-wiggle { 30% { rotate: -10deg; } 60% { rotate: 6deg; } }
+
+/* stats and timeline cards: small lift on hover */
+.stats > div:hover { translate: 0 -4px; box-shadow: 0 18px 30px -20px rgba(219, 85, 0, .6); }
+.timeline li > div { transition: border-color .5s, box-shadow .5s, translate .45s var(--spring); }
+.timeline li > div:hover { translate: 4px 0; }
+.s-dot { position: relative; }
+.timeline li.on .s-dot::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--tawny-light); animation: ripple 1.3s var(--ease) forwards; pointer-events: none; }
+
+/* verse: big quote mark floats; reference dashes draw in */
+.verse-mark { animation: mark-float 8s ease-in-out infinite; }
+@keyframes mark-float { 50% { transform: translateY(-12px) rotate(-4deg); } }
+.js .verse-ref.reveal::before, .js .verse-ref.reveal::after { transform: scaleX(0); transition: transform .9s var(--ease) .4s; }
+.js .verse-ref.reveal.in::before, .js .verse-ref.reveal.in::after { transform: none; }
+
+/* final call: symbol hovers and glows */
+.final-in > img.in { animation: sym-float 5s 1.4s ease-in-out infinite; }
+@keyframes sym-float { 50% { translate: 0 -8px; filter: drop-shadow(0 10px 22px rgba(219, 85, 0, .55)); } }
+
+/* ticker pauses under the pointer; sticky CTA shines */
+.ticker:hover .ticker-track { animation-play-state: paused; }
+.sticky em::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, .45) 50%, transparent 70%); transform: translateX(-120%); animation: shine 4s 1s var(--ease) infinite; pointer-events: none; }
+
+/* footer link underline slides in */
+.foot a { color: inherit; text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .35s var(--ease), color .3s; }
+.foot a:hover { color: var(--tawny-light); background-size: 100% 1px; }
+
+/* confirmation page calendar buttons: icon bounce on hover */
+.btn-cal svg { transition: transform .4s var(--spring); }
+.btn-cal:hover svg { transform: rotate(-8deg) scale(1.12); }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal, .js .split .w > span { filter: none !important; }
+  .js .eyebrow.reveal::before, .js .eyebrow.reveal::after, .js .verse-ref.reveal::before, .js .verse-ref.reveal::after { transform: none !important; }
+  .magnetic { translate: none !important; }
+  .ripple { display: none; }
+  .js:not(.ready) .byline { letter-spacing: .06em; }
+}

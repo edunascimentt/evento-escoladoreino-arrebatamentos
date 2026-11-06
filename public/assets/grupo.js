@@ -71,4 +71,30 @@
       px.track('CompleteRegistration', { content_name: 'Agenda: Todos os arrebatamentos da Bíblia', status: 'agenda' }, px.eid());
     });
   });
+
+  // Click ripple + magnetic pull on the calendar buttons (off under reduced motion).
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('.btn');
+      if (!b) return;
+      var r = b.getBoundingClientRect(), d = Math.max(r.width, r.height) * 2.2;
+      var s = document.createElement('span');
+      s.className = 'ripple';
+      s.setAttribute('aria-hidden', 'true');
+      s.style.cssText = 'width:' + d + 'px;height:' + d + 'px;left:' + (e.clientX - r.left) + 'px;top:' + (e.clientY - r.top) + 'px';
+      b.appendChild(s);
+      setTimeout(function () { s.remove(); }, 750);
+    }, { passive: true });
+    if (window.matchMedia('(pointer: fine)').matches) {
+      Array.prototype.forEach.call(document.querySelectorAll('.btn-cal'), function (el) {
+        el.classList.add('magnetic');
+        el.addEventListener('pointermove', function (e) {
+          var r = el.getBoundingClientRect();
+          el.style.setProperty('--tx', ((e.clientX - r.left - r.width / 2) * .12).toFixed(1) + 'px');
+          el.style.setProperty('--ty', ((e.clientY - r.top - r.height / 2) * .2).toFixed(1) + 'px');
+        });
+        el.addEventListener('pointerleave', function () { el.style.setProperty('--tx', '0px'); el.style.setProperty('--ty', '0px'); });
+      });
+    }
+  }
 })();
