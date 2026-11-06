@@ -1,0 +1,53 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Sign-up page for the free live class "Todos os arrebatamentos da Bíblia"
+  // (Pr. Eduardo Reis, Tue 2026-11-10 20h, live on YouTube). Its own Worker, separate from
+  // the main site Worker "escoladoreinoclub" (escoladoreino.com) and from the previous class
+  // Worker "evento-escoladoreino" (escatologia.escoladoreino.com) — never deploy over those.
+  "name": "evento-escoladoreino-arrebatamentos",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  "observability": { "enabled": true },
+  // arrebatamentos.escoladoreino.com: Workers custom domain (Cloudflare creates the DNS record;
+  // the escoladoreino.com zone uses Cloudflare nameservers).
+  "routes": [{ "pattern": "arrebatamentos.escoladoreino.com", "custom_domain": true }],
+  "workers_dev": true,
+  "preview_urls": false,
+
+  // Static pages live in ./public; only /api/*, /entrar and /admin/* run the Worker.
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "run_worker_first": ["/api/*", "/entrar", "/admin/*"]
+  },
+
+  // SAME database as escoladoreino.com (schema lives in ../escoladoreinoclub/migrations).
+  // Sign-ups land in `leads` and show up in escoladoreino.com/admin. No migrations here.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "escoladoreino-club",
+      "database_id": "6be94edb-094c-4eb9-9f53-bfe8c62cb1c3"
+    }
+  ],
+
+  // Per-IP limit on the sign-up endpoint (namespace_id: unique within the account).
+  "ratelimits": [
+    { "name": "FORM_LIMITER", "namespace_id": "4202", "simple": { "limit": 20, "period": 60 } }
+  ],
+
+  // Secrets: ADMIN_PASSWORD (protects /admin/inscritos.csv); META_CAPI_TOKEN (Conversions API, optional).
+  "vars": {
+    // WhatsApp group invite (https://chat.whatsapp.com/...). Empty = the thank-you page
+    // shows "convite sendo liberado" instead of the button. Change here and redeploy.
+    "WHATSAPP_GROUP_URL": "",
+    // Identifies this class in leads.landing_path and in the events' data.
+    "AULA_SLUG": "aula-todos-arrebatamentos",
+    // Meta Pixel da Escola do Reino (same as escoladoreino.com and the previous class).
+    // Conversions API needs the secret META_CAPI_TOKEN.
+    "META_PIXEL_ID": "1818933942616750",
+    "META_GRAPH_VERSION": "v23.0",
+    "AULA_NOME": "Todos os arrebatamentos da Bíblia (Pr. Eduardo Reis, 10/11 20h, YouTube)"
+  }
+}

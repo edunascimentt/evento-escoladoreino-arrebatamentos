@@ -1,0 +1,88 @@
+/* Página do grupo: nome da pessoa, partículas, confete e o botão do WhatsApp
+   (aparece quando o link estiver configurado; confere a cada 20 s). */
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try {
+    var nome = sessionStorage.getItem('edr_nome');
+    if (nome) document.querySelector('[data-name]').textContent = 'Pronto, ' + nome + '! Sua vaga está garantida.';
+  } catch (e) { /* ignore */ }
+
+  // partículas subindo
+  if (!reduce) {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-motes]'), function (box) {
+      var n = +box.getAttribute('data-motes');
+      for (var k = 0; k < n; k++) {
+        var m = document.createElement('i');
+        m.style.left = (Math.random() * 100).toFixed(1) + '%';
+        m.style.setProperty('--s', (2 + Math.random() * 4).toFixed(1) + 'px');
+        m.style.setProperty('--t', (9 + Math.random() * 12).toFixed(1) + 's');
+        m.style.setProperty('--dl', (-Math.random() * 20).toFixed(1) + 's');
+        m.style.setProperty('--x', ((Math.random() - .5) * 120).toFixed(0) + 'px');
+        m.style.setProperty('--o', (.35 + Math.random() * .6).toFixed(2));
+        box.appendChild(m);
+      }
+    });
+  }
+
+  // confete nas cores da marca
+  function confetti() {
+    if (reduce) return;
+    var c = document.createElement('canvas');
+    c.className = 'confetti';
+    document.body.appendChild(c);
+    var ctx = c.getContext('2d');
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var W = c.width = innerWidth * dpr, H = c.height = innerHeight * dpr;
+    var colors = ['#DB5500', '#f07a2a', '#e9cfa3', '#EDE3D3', '#c89b62', '#1FAF54'];
+    var parts = [];
+    for (var i = 0; i < 160; i++) {
+      var fromLeft = i % 2 === 0;
+      parts.push({
+        x: fromLeft ? 0 : W, y: H * .75,
+        vx: (fromLeft ? 1 : -1) * (6 + Math.random() * 12) * dpr,
+        vy: -(12 + Math.random() * 14) * dpr,
+        w: (6 + Math.random() * 6) * dpr, h: (8 + Math.random() * 10) * dpr,
+        r: Math.random() * Math.PI, vr: (Math.random() - .5) * .3,
+        c: colors[i % colors.length]
+      });
+    }
+    var t0 = performance.now();
+    (function frame(now) {
+      var t = now - t0;
+      ctx.clearRect(0, 0, W, H);
+      parts.forEach(function (p) {
+        p.vy += .35 * dpr; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+        ctx.globalAlpha = Math.max(0, 1 - t / 3800);
+        ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.r * 2)));
+        ctx.restore();
+      });
+      if (t < 3800) requestAnimationFrame(frame); else c.remove();
+    })(t0);
+  }
+  setTimeout(confetti, 350);
+
+  // Clique no botão do grupo = CompleteRegistration (navegador + servidor, mesmo eventID via /entrar?eid=)
+  var px = window.edrPixel || { track: function () {}, eid: function () { return ''; } };
+  var wa = document.getElementById('wa');
+  wa.addEventListener('click', function () {
+    var id = px.eid();
+    px.track('CompleteRegistration', { content_name: 'Grupo WhatsApp: Todos os arrebatamentos da Bíblia', status: 'grupo' }, id);
+    wa.href = '/entrar?eid=' + encodeURIComponent(id);
+  });
+
+  var box = document.getElementById('wa-box');
+  var soon = document.getElementById('soon');
+  function check() {
+    fetch('/api/grupo', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        box.hidden = !d.ready;
+        soon.hidden = !!d.ready;
+        if (!d.ready) setTimeout(check, 20000);
+      })
+      .catch(function () { setTimeout(check, 20000); });
+  }
+  check();
+})();
