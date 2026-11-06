@@ -1,8 +1,8 @@
 # Evento Escola do Reino — aula "Todos os arrebatamentos da Bíblia"
 
 Sign-up page for the free live class with Pr. Eduardo Reis (Tue 2026-11-10 20:00 BRT, live on YouTube).
-Flow: `/` (event page + stepped form) → `/grupo` (confirmation + save-to-calendar buttons).
-No WhatsApp group: the team sends the live link to each lead by WhatsApp/e-mail.
+Flow: `/` (event page + stepped form) → `/grupo` (WhatsApp group button via `/entrar`, plus save-to-calendar buttons).
+Group link: `WHATSAPP_GROUP_URL` in `wrangler.jsonc`.
 
 - Worker `evento-escoladoreino-arrebatamentos` — https://arrebatamentos.escoladoreino.com
   (also https://evento-escoladoreino-arrebatamentos.polaris-web.workers.dev). See CLAUDE.md for the full guide.

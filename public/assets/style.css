@@ -648,7 +648,13 @@ p { overflow-wrap: break-word; }
 .theme-arreb .recap li { background: rgba(11, 16, 18, .6); border-color: rgba(237, 227, 211, .12); }
 .theme-arreb .recap b { font-family: var(--display); font-weight: 400; font-size: 1.15rem; text-transform: uppercase; letter-spacing: .01em; }
 
-/* Confirmation page: calendar buttons (this class has no WhatsApp group) */
+/* Group page: green WhatsApp button (beats the theme's .btn gradient) + secondary calendar buttons */
+.theme-arreb .btn.btn-wa { background: linear-gradient(135deg, #2bd46a, var(--wa, #1FAF54) 50%, #16904a); color: #fff; font-size: .95rem; padding: 22px 24px; box-shadow: 0 20px 40px -16px rgba(31, 175, 84, .95); animation: nudge 2.4s 1.4s var(--ease) infinite; }
+.cal-label { margin: 26px 0 10px; font-size: .85rem; color: rgba(237, 227, 211, .7); }
+.cal-btns.cal-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.theme-arreb .cal-row .btn.btn-cal-alt { animation: none; flex: 1 1 200px; max-width: 280px; width: auto; }
+.cal-row .btn-cal-alt svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+@media (prefers-reduced-motion: reduce) { .theme-arreb .btn.btn-wa { animation: none; } }
 .cal-btns { display: grid; gap: 12px; justify-items: center; }
 .theme-arreb .btn.btn-cal { background: linear-gradient(135deg, #f07a2a, var(--tawny) 55%, #a84000); font-size: .95rem; padding: 20px 24px; box-shadow: 0 20px 40px -16px rgba(219, 85, 0, .9); animation: nudge 2.4s 1.4s var(--ease) infinite; }
 .btn-cal svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }

@@ -186,7 +186,7 @@
       var left = Math.max(0, target - Date.now());
       if (left === 0) {
         cd.classList.add('is-live');
-        var lab = $('.cd-label', cd); if (lab) lab.textContent = 'A aula já começou: o link está no seu WhatsApp e e-mail';
+        var lab = $('.cd-label', cd); if (lab) lab.textContent = 'A aula já começou: entre no grupo para pegar o link';
         return;
       }
       var s = Math.floor(left / 1000);

@@ -1,4 +1,4 @@
-/* Página de confirmação: nome da pessoa, partículas, confete e botões de agenda. */
+/* Página do grupo: nome da pessoa, partículas, confete, botão do grupo e agenda. */
 (function () {
   'use strict';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -62,17 +62,28 @@
   }
   setTimeout(confetti, 350);
 
-  // Salvar na agenda = CompleteRegistration (sem grupo de WhatsApp nesta aula)
+  // Botão do grupo: CompleteRegistration (Pixel + CAPI com o mesmo event id via /entrar?eid=).
   var px = window.edrPixel || { track: function () {}, eid: function () { return ''; } };
-  var sent = false;
-  Array.prototype.forEach.call(document.querySelectorAll('#cal-google, #cal-ics'), function (a) {
-    a.addEventListener('click', function () {
-      if (sent) return; sent = true;
-      px.track('CompleteRegistration', { content_name: 'Agenda: Todos os arrebatamentos da Bíblia', status: 'agenda' }, px.eid());
+  var wa = document.getElementById('wa');
+  if (wa) {
+    wa.addEventListener('click', function () {
+      var id = px.eid();
+      px.track('CompleteRegistration', { content_name: 'Grupo WhatsApp: Todos os arrebatamentos da Bíblia', status: 'grupo' }, id);
+      wa.href = '/entrar?eid=' + encodeURIComponent(id);
     });
-  });
+  }
 
-  // Click ripple + magnetic pull on the calendar buttons (off under reduced motion).
+  // Se o link do grupo ainda não estiver configurado, mostra o aviso e espera ele ficar pronto.
+  var box = document.getElementById('wa-box'), soon = document.getElementById('soon');
+  function check() {
+    fetch('/api/grupo', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
+      if (j && j.ready) { box.hidden = false; soon.hidden = true; }
+      else { box.hidden = true; soon.hidden = false; setTimeout(check, 15000); }
+    }).catch(function () { /* keep the button */ });
+  }
+  if (box && soon) check();
+
+  // Click ripple + magnetic pull on the group button (off under reduced motion).
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.addEventListener('pointerdown', function (e) {
       var b = e.target.closest && e.target.closest('.btn');
@@ -86,7 +97,7 @@
       setTimeout(function () { s.remove(); }, 750);
     }, { passive: true });
     if (window.matchMedia('(pointer: fine)').matches) {
-      Array.prototype.forEach.call(document.querySelectorAll('.btn-cal'), function (el) {
+      Array.prototype.forEach.call(document.querySelectorAll('.btn-wa'), function (el) {
         el.classList.add('magnetic');
         el.addEventListener('pointermove', function (e) {
           var r = el.getBoundingClientRect();

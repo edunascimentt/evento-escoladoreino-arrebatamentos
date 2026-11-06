@@ -11,9 +11,8 @@ Tue 2026-11-10 20:00 BRT, live on YouTube) of the Escola do Reino. Cloned from t
 
 - Live: https://arrebatamentos.escoladoreino.com (also https://evento-escoladoreino-arrebatamentos.polaris-web.workers.dev)
 - Flow: `/` (event page + 3-step form: name → WhatsApp → e-mail + consent) → `/grupo`
-  (confirmation + "save to calendar" buttons: Google Calendar link and `/aula.ics`).
-  **There is no WhatsApp group for this class**: the team sends the live link to each lead by
-  WhatsApp/e-mail (from the leads list).
+  ("Entrar no grupo" WhatsApp button via `/entrar`, plus secondary "save to calendar" buttons:
+  Google Calendar link and `/aula.ics`). The live link is posted in the WhatsApp group.
 - One Cloudflare Worker (`evento-escoladoreino-arrebatamentos`) serving static files from `public/` and a few
   routes in `src/index.ts`.
 
@@ -31,15 +30,15 @@ Tue 2026-11-10 20:00 BRT, live on YouTube) of the Escola do Reino. Cloned from t
 | Change | File |
 |---|---|
 | Texts, sections, form steps of the event page | `public/index.html` |
-| Confirmation / calendar page | `public/grupo.html` |
+| Group page (WhatsApp button + calendar) | `public/grupo.html` |
 | Look and animations | `public/assets/style.css` |
 | Page behaviour (countdown, steps, validation, scroll effects) | `public/assets/app.js` |
-| Confirmation page (confetti, calendar click pixel event) | `public/assets/grupo.js` |
+| Group page (confetti, group click = CompleteRegistration) | `public/assets/grupo.js` |
 | Meta Pixel + event ids | `public/assets/pixel.js` |
-| Server: sign-up, CSV, Conversions API (`/entrar` group redirect unused) | `src/index.ts` |
+| Server: sign-up, CSV, Conversions API `/entrar` group redirect | `src/index.ts` |
 | Class name/date ids, pixel id | `wrangler.jsonc` → `vars` |
 
-- `WHATSAPP_GROUP_URL` stays empty (no group). Calendar event: `public/aula.ics` + Google link in `public/grupo.html`.
+- Group link: `WHATSAPP_GROUP_URL` in `wrangler.jsonc` (empty = /grupo shows "convite sendo liberado"). Calendar event: `public/aula.ics` + Google link in `public/grupo.html`.
 - **Class date/time:** appears in `public/index.html` (`data-countdown="2026-11-10T20:00:00-03:00"`,
   twice, plus visible texts "10 de novembro", "Ter · 10/11 · 20h", "Terça", ticker, sticky bar),
   `public/grupo.html` (recap list, Google Calendar link), `public/aula.ics` and `AULA_NOME` in `wrangler.jsonc`.

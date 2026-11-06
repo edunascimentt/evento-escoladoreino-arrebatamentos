@@ -39,9 +39,9 @@
 
   // Secrets: ADMIN_PASSWORD (protects /admin/inscritos.csv); META_CAPI_TOKEN (Conversions API, optional).
   "vars": {
-    // Unused: this class has no WhatsApp group (/grupo is a confirmation + calendar page).
-    // Kept so /entrar in src/index.ts still typechecks.
-    "WHATSAPP_GROUP_URL": "",
+    // WhatsApp group invite. /entrar redirects here (and records an `aula_grupo` event).
+    // Empty = /grupo shows "convite sendo liberado". Change here and push.
+    "WHATSAPP_GROUP_URL": "https://chat.whatsapp.com/LYUFZIUk8rH4SJYAEg9DoZ",
     // Identifies this class in leads.landing_path and in the events' data.
     "AULA_SLUG": "aula-todos-arrebatamentos",
     // Meta Pixel da Escola do Reino (same as escoladoreino.com and the previous class).
