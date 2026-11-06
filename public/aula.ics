@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Escola do Reino//Aula//PT
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:aula-todos-arrebatamentos-20261110@escoladoreino.com
+DTSTAMP:20261106T120000Z
+DTSTART:20261110T230000Z
+DTEND:20261111T003000Z
+SUMMARY:Aula ao vivo: Todos os arrebatamentos da Bíblia
+DESCRIPTION:Aula gratuita com o Pr. Eduardo Reis\, ao vivo no YouTube. O link chega no seu WhatsApp e e-mail.
+LOCATION:YouTube ao vivo
+URL:https://arrebatamentos.escoladoreino.com/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:A aula começa em 30 minutos
+TRIGGER:-PT30M
+END:VALARM
+END:VEVENT
+END:VCALENDAR

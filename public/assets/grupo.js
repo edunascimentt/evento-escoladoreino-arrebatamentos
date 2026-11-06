@@ -1,5 +1,4 @@
-/* Página do grupo: nome da pessoa, partículas, confete e o botão do WhatsApp
-   (aparece quando o link estiver configurado; confere a cada 20 s). */
+/* Página de confirmação: nome da pessoa, partículas, confete e botões de agenda. */
 (function () {
   'use strict';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -63,26 +62,13 @@
   }
   setTimeout(confetti, 350);
 
-  // Clique no botão do grupo = CompleteRegistration (navegador + servidor, mesmo eventID via /entrar?eid=)
+  // Salvar na agenda = CompleteRegistration (sem grupo de WhatsApp nesta aula)
   var px = window.edrPixel || { track: function () {}, eid: function () { return ''; } };
-  var wa = document.getElementById('wa');
-  wa.addEventListener('click', function () {
-    var id = px.eid();
-    px.track('CompleteRegistration', { content_name: 'Grupo WhatsApp: Todos os arrebatamentos da Bíblia', status: 'grupo' }, id);
-    wa.href = '/entrar?eid=' + encodeURIComponent(id);
+  var sent = false;
+  Array.prototype.forEach.call(document.querySelectorAll('#cal-google, #cal-ics'), function (a) {
+    a.addEventListener('click', function () {
+      if (sent) return; sent = true;
+      px.track('CompleteRegistration', { content_name: 'Agenda: Todos os arrebatamentos da Bíblia', status: 'agenda' }, px.eid());
+    });
   });
-
-  var box = document.getElementById('wa-box');
-  var soon = document.getElementById('soon');
-  function check() {
-    fetch('/api/grupo', { cache: 'no-store' })
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        box.hidden = !d.ready;
-        soon.hidden = !!d.ready;
-        if (!d.ready) setTimeout(check, 20000);
-      })
-      .catch(function () { setTimeout(check, 20000); });
-  }
-  check();
 })();

@@ -10,3 +10,5 @@
   Cache-Control: public, max-age=86400
 /assets/video/*
   Cache-Control: public, max-age=2592000
+/aula.ics
+  Content-Type: text/calendar; charset=utf-8

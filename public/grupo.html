@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Falta só um passo · Entre no grupo da aula · Escola do Reino</title>
+  <title>Inscrição confirmada · Todos os arrebatamentos da Bíblia · Escola do Reino</title>
   <meta name="robots" content="noindex" />
   <meta name="theme-color" content="#0B1012" />
   <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml" />
@@ -24,28 +24,27 @@
       <div class="badge-ok" aria-hidden="true"><svg viewBox="0 0 92 92"><circle cx="46" cy="46" r="46"/><path d="m28 47 12 12 24-25"/></svg></div>
 
       <div class="progress" aria-label="Etapa 2 de 2">
-        <span class="done">Inscrição feita</span><span class="now">Entrar no grupo</span>
+        <span class="done">Inscrição feita</span><span class="now">Salvar na agenda</span>
       </div>
 
-      <h1><span class="hi" data-name></span>Falta só um passo para você se preparar para a aula! 🙌</h1>
+      <h1><span class="hi" data-name></span>Inscrição confirmada! Te esperamos na terça 🙌</h1>
       <p class="lead">Na aula ao vivo com o <b>Pr. Eduardo Reis</b>, você vai estudar <b>todos os arrebatamentos da Bíblia</b>, de Enoque à Igreja.</p>
-      <p class="lead">Entre no grupo para <b>receber o acesso à aula</b> e acompanhar todas as orientações.</p>
+      <p class="lead">O <b>link da live chega no seu WhatsApp e e-mail</b> antes da aula começar.</p>
 
-      <!-- Link do grupo: vem de WHATSAPP_GROUP_URL (wrangler.jsonc). /entrar redireciona para ele.
-           Enquanto estiver vazio, aparece o aviso "convite sendo liberado". -->
-      <div id="wa-box" hidden>
-        <p class="cta-hint"><span aria-hidden="true">👇</span> Clique no botão abaixo e participe!</p>
-        <a class="btn btn-wa" id="wa" href="/entrar">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20.5l1.6-5.4A8.4 8.4 0 1 1 21 11.5z"/><path d="M9 9.2c.2 1.9 2.2 4.4 4.8 5.3l1-1.2 1.8.9c-.2 1-1 1.6-2 1.6-3 0-6.2-3.2-6.2-6.2 0-1 .6-1.8 1.6-2l.9 1.8z"/></svg>
-          <span>Entrar no grupo</span>
+      <!-- Sem grupo de WhatsApp: o link da live vai por WhatsApp/e-mail. Aqui a pessoa salva a aula na agenda. -->
+      <p class="cta-hint"><span aria-hidden="true">👇</span> Salve a aula na sua agenda para não perder!</p>
+      <div class="cal-btns">
+        <a class="btn btn-cal" id="cal-google" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Aula%20ao%20vivo%3A%20Todos%20os%20arrebatamentos%20da%20B%C3%ADblia&amp;dates=20261110T230000Z%2F20261111T003000Z&amp;details=Aula%20gratuita%20com%20o%20Pr.%20Eduardo%20Reis%2C%20ao%20vivo%20no%20YouTube.%20O%20link%20chega%20no%20seu%20WhatsApp%20e%20e-mail.&amp;location=YouTube%20ao%20vivo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+          <span>Salvar no Google Agenda</span>
         </a>
+        <a class="btn btn-cal-alt" id="cal-ics" href="/aula.ics" download="aula-arrebatamentos.ics">Outra agenda (iPhone, Outlook)</a>
       </div>
-      <p class="soon" id="soon"><span class="spin" aria-hidden="true"></span>O convite do grupo está sendo liberado. Deixe esta página aberta: o botão aparece aqui sozinho.</p>
 
       <ul class="recap">
         <li><b>Terça-feira, 10/11</b><span>às 20h (Brasília)</span></li>
         <li><b>YouTube ao vivo</b><span>com o Pr. Eduardo Reis</span></li>
-        <li><b>Gratuita</b><span>link só no grupo</span></li>
+        <li><b>Gratuita</b><span>link no WhatsApp e e-mail</span></li>
       </ul>
     </div>
   </main>

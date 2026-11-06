@@ -11,7 +11,9 @@ Tue 2026-11-10 20:00 BRT, live on YouTube) of the Escola do Reino. Cloned from t
 
 - Live: https://arrebatamentos.escoladoreino.com (also https://evento-escoladoreino-arrebatamentos.polaris-web.workers.dev)
 - Flow: `/` (event page + 3-step form: name → WhatsApp → e-mail + consent) → `/grupo`
-  (button to the WhatsApp group; the class link is only sent inside the group).
+  (confirmation + "save to calendar" buttons: Google Calendar link and `/aula.ics`).
+  **There is no WhatsApp group for this class**: the team sends the live link to each lead by
+  WhatsApp/e-mail (from the leads list).
 - One Cloudflare Worker (`evento-escoladoreino-arrebatamentos`) serving static files from `public/` and a few
   routes in `src/index.ts`.
 
@@ -29,25 +31,25 @@ Tue 2026-11-10 20:00 BRT, live on YouTube) of the Escola do Reino. Cloned from t
 | Change | File |
 |---|---|
 | Texts, sections, form steps of the event page | `public/index.html` |
-| Thank-you / WhatsApp group page (team copy) | `public/grupo.html` |
+| Confirmation / calendar page | `public/grupo.html` |
 | Look and animations | `public/assets/style.css` |
 | Page behaviour (countdown, steps, validation, scroll effects) | `public/assets/app.js` |
-| Group page (confetti, button) | `public/assets/grupo.js` |
+| Confirmation page (confetti, calendar click pixel event) | `public/assets/grupo.js` |
 | Meta Pixel + event ids | `public/assets/pixel.js` |
-| Server: sign-up, group redirect, CSV, Conversions API | `src/index.ts` |
-| WhatsApp group link, class name/date ids, pixel id | `wrangler.jsonc` → `vars` |
+| Server: sign-up, CSV, Conversions API (`/entrar` group redirect unused) | `src/index.ts` |
+| Class name/date ids, pixel id | `wrangler.jsonc` → `vars` |
 
-- **WhatsApp group link:** `WHATSAPP_GROUP_URL` in `wrangler.jsonc`. Change it, push.
+- `WHATSAPP_GROUP_URL` stays empty (no group). Calendar event: `public/aula.ics` + Google link in `public/grupo.html`.
 - **Class date/time:** appears in `public/index.html` (`data-countdown="2026-11-10T20:00:00-03:00"`,
   twice, plus visible texts "10 de novembro", "Ter · 10/11 · 20h", "Terça", ticker, sticky bar),
-  `public/grupo.html` (recap list) and `AULA_NOME` in `wrangler.jsonc`.
+  `public/grupo.html` (recap list, Google Calendar link), `public/aula.ics` and `AULA_NOME` in `wrangler.jsonc`.
 
 ## Data (important)
 
 - Sign-ups are written into the **main site's D1 database** `escoladoreino-club` (shared with
   escoladoreino.com; schema owned by the private repo `edunascimentt/escoladoreinoclub`).
   Each sign-up = a row in `leads` (status `cadastrou`, `landing_path=/aula-todos-arrebatamentos`) + an
-  `aula_inscricao` event; the group button adds an `aula_grupo` event.
+  `aula_inscricao` event.
 - **Never create, alter or drop tables from this repo.** Never delete leads.
 - Leads are visible at https://escoladoreino.com/admin → Leads, and as CSV (this class only) at
   `/admin/inscritos.csv` (HTTP Basic, password = secret `ADMIN_PASSWORD`).
@@ -55,7 +57,7 @@ Tue 2026-11-10 20:00 BRT, live on YouTube) of the Escola do Reino. Cloned from t
 ## Secrets (Cloudflare → Worker → Settings → Variables and Secrets; never in the repo)
 
 - `ADMIN_PASSWORD` — CSV export password.
-- `META_CAPI_TOKEN` — Meta Conversions API token (pixel 1818933942616750, "Pixel Eduardo Reis").
+- `META_CAPI_TOKEN` — optional, not set: Meta Conversions API token (pixel 1818933942616750, "Pixel Eduardo Reis").
 - Local dev: copy them into `.dev.vars` (gitignored).
 
 ## Rules

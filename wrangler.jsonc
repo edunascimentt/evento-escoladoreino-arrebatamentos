@@ -39,8 +39,8 @@
 
   // Secrets: ADMIN_PASSWORD (protects /admin/inscritos.csv); META_CAPI_TOKEN (Conversions API, optional).
   "vars": {
-    // WhatsApp group invite (https://chat.whatsapp.com/...). Empty = the thank-you page
-    // shows "convite sendo liberado" instead of the button. Change here and redeploy.
+    // Unused: this class has no WhatsApp group (/grupo is a confirmation + calendar page).
+    // Kept so /entrar in src/index.ts still typechecks.
     "WHATSAPP_GROUP_URL": "",
     // Identifies this class in leads.landing_path and in the events' data.
     "AULA_SLUG": "aula-todos-arrebatamentos",
