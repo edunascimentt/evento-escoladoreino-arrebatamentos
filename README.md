@@ -1,6 +1,6 @@
 # Evento Escola do Reino — aula "Todos os arrebatamentos da Bíblia"
 
-Sign-up page for the free live class with Pr. Eduardo Reis (Tue 2026-11-10 20:00 BRT, live on YouTube).
+Sign-up page for the free live class with Pr. Eduardo Reis (Mon 2026-11-23 20:00 BRT, live on YouTube).
 Flow: `/` (event page + stepped form) → `/grupo` (WhatsApp group button via `/entrar`, plus save-to-calendar buttons).
 Group link: `WHATSAPP_GROUP_URL` in `wrangler.jsonc`.
 
@@ -15,7 +15,7 @@ Group link: `WHATSAPP_GROUP_URL` in `wrangler.jsonc`.
 
 ## Calendar
 
-`public/aula.ics` and the Google Calendar link in `public/grupo.html` carry the class date (2026-11-10 23:00 UTC).
+`public/aula.ics` and the Google Calendar link in `public/grupo.html` carry the class date (2026-11-23 23:00 UTC).
 
 ## Local
 

@@ -6,7 +6,7 @@ code, comments and commits stay in English.
 ## What this is
 
 Capture page for the free live class **"Todos os arrebatamentos da Bíblia"** (Pr. Eduardo Reis,
-Tue 2026-11-10 20:00 BRT, live on YouTube) of the Escola do Reino. Cloned from the previous class page
+Mon 2026-11-23 20:00 BRT, live on YouTube) of the Escola do Reino. Cloned from the previous class page
 (github.com/edunascimentt/evento-escoladoreino, escatologia.escoladoreino.com): same backend, same pixel.
 
 - Live: https://arrebatamentos.escoladoreino.com (also https://evento-escoladoreino-arrebatamentos.polaris-web.workers.dev)
@@ -39,8 +39,8 @@ Tue 2026-11-10 20:00 BRT, live on YouTube) of the Escola do Reino. Cloned from t
 | Class name/date ids, pixel id | `wrangler.jsonc` → `vars` |
 
 - Group link: `WHATSAPP_GROUP_URL` in `wrangler.jsonc` (empty = /grupo shows "convite sendo liberado"). Calendar event: `public/aula.ics` + Google link in `public/grupo.html`.
-- **Class date/time:** appears in `public/index.html` (`data-countdown="2026-11-10T20:00:00-03:00"`,
-  twice, plus visible texts "10 de novembro", "Ter · 10/11 · 20h", "Terça", ticker, sticky bar),
+- **Class date/time:** appears in `public/index.html` (`data-countdown="2026-11-23T20:00:00-03:00"`,
+  twice, plus visible texts "23 de novembro", "Seg · 23/11 · 20h", "Segunda", ticker, sticky bar),
   `public/grupo.html` (recap list, Google Calendar link), `public/aula.ics` and `AULA_NOME` in `wrangler.jsonc`.
 
 ## Data (important)

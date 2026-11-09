@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   // Sign-up page for the free live class "Todos os arrebatamentos da Bíblia"
-  // (Pr. Eduardo Reis, Tue 2026-11-10 20h, live on YouTube). Its own Worker, separate from
+  // (Pr. Eduardo Reis, Mon 2026-11-23 20h, live on YouTube). Its own Worker, separate from
   // the main site Worker "escoladoreinoclub" (escoladoreino.com) and from the previous class
   // Worker "evento-escoladoreino" (escatologia.escoladoreino.com) — never deploy over those.
   "name": "evento-escoladoreino-arrebatamentos",
@@ -48,6 +48,6 @@
     // Conversions API needs the secret META_CAPI_TOKEN.
     "META_PIXEL_ID": "1818933942616750",
     "META_GRAPH_VERSION": "v23.0",
-    "AULA_NOME": "Todos os arrebatamentos da Bíblia (Pr. Eduardo Reis, 10/11 20h, YouTube)"
+    "AULA_NOME": "Todos os arrebatamentos da Bíblia (Pr. Eduardo Reis, 23/11 20h, YouTube)"
   }
 }
